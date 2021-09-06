@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "study_groups",
+  "info": {
+    "name": "StudyGroup"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 2
+    },
+    "members": {
+      "plugin": "users-permissions",
+      "collection": "user",
+      "via": "study_groups",
+      "dominant": true
+    },
+    "start_date": {
+      "type": "date",
+      "required": true
+    },
+    "end_date": {
+      "type": "date"
+    }
+  }
+}
