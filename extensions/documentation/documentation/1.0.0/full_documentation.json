@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "09/09/2021 11:36:28 PM"
+    "x-generation-date": "09/10/2021 12:52:37 AM"
   },
   "x-strapi-config": {
     "path": "/documentation",
@@ -2802,7 +2802,7 @@
         "required": [
           "id",
           "title",
-          "start_date"
+          "startDate"
         ],
         "properties": {
           "id": {
@@ -2811,6 +2811,14 @@
           "title": {
             "type": "string",
             "minLength": 2
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
           },
           "members": {
             "type": "array",
@@ -2851,7 +2859,13 @@
                 "role": {
                   "type": "string"
                 },
-                "study_groups": {
+                "belongsTo": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "managing": {
                   "type": "array",
                   "items": {
                     "type": "string"
@@ -2866,13 +2880,65 @@
               }
             }
           },
-          "start_date": {
-            "type": "string",
-            "format": "date"
-          },
-          "end_date": {
-            "type": "string",
-            "format": "date"
+          "managers": {
+            "type": "array",
+            "items": {
+              "required": [
+                "id",
+                "username",
+                "email"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "username": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "provider": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "resetPasswordToken": {
+                  "type": "string"
+                },
+                "confirmationToken": {
+                  "type": "string"
+                },
+                "confirmed": {
+                  "type": "boolean"
+                },
+                "blocked": {
+                  "type": "boolean"
+                },
+                "role": {
+                  "type": "string"
+                },
+                "belongsTo": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "managing": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "created_by": {
+                  "type": "string"
+                },
+                "updated_by": {
+                  "type": "string"
+                }
+              }
+            }
           },
           "published_at": {
             "type": "string",
@@ -2883,12 +2949,20 @@
       "NewStudy-group": {
         "required": [
           "title",
-          "start_date"
+          "startDate"
         ],
         "properties": {
           "title": {
             "type": "string",
             "minLength": 2
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
           },
           "members": {
             "type": "array",
@@ -2896,13 +2970,11 @@
               "type": "string"
             }
           },
-          "start_date": {
-            "type": "string",
-            "format": "date"
-          },
-          "end_date": {
-            "type": "string",
-            "format": "date"
+          "managers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           },
           "published_at": {
             "type": "string",
@@ -3015,7 +3087,13 @@
                 "role": {
                   "type": "string"
                 },
-                "study_groups": {
+                "belongsTo": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "managing": {
                   "type": "array",
                   "items": {
                     "type": "string"
@@ -3134,13 +3212,13 @@
               }
             }
           },
-          "study_groups": {
+          "belongsTo": {
             "type": "array",
             "items": {
               "required": [
                 "id",
                 "title",
-                "start_date"
+                "startDate"
               ],
               "properties": {
                 "id": {
@@ -3149,17 +3227,68 @@
                 "title": {
                   "type": "string"
                 },
+                "startDate": {
+                  "type": "string"
+                },
+                "endDate": {
+                  "type": "string"
+                },
                 "members": {
                   "type": "array",
                   "items": {
                     "type": "string"
                   }
                 },
-                "start_date": {
+                "managers": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "published_at": {
                   "type": "string"
                 },
-                "end_date": {
+                "created_by": {
                   "type": "string"
+                },
+                "updated_by": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "managing": {
+            "type": "array",
+            "items": {
+              "required": [
+                "id",
+                "title",
+                "startDate"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "startDate": {
+                  "type": "string"
+                },
+                "endDate": {
+                  "type": "string"
+                },
+                "members": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "managers": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
                 },
                 "published_at": {
                   "type": "string"
@@ -3214,7 +3343,13 @@
           "role": {
             "type": "string"
           },
-          "study_groups": {
+          "belongsTo": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "managing": {
             "type": "array",
             "items": {
               "type": "string"

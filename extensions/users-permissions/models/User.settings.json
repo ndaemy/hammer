@@ -59,9 +59,13 @@
       "plugin": "users-permissions",
       "configurable": false
     },
-    "study_groups": {
-      "via": "members",
-      "collection": "study-group"
+    "belongsTo": {
+      "collection": "study-group",
+      "via": "members"
+    },
+    "managing": {
+      "collection": "study-group",
+      "via": "managers"
     }
   }
 }

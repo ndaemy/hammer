@@ -1251,13 +1251,13 @@
               }
             }
           },
-          "study_groups": {
+          "belongsTo": {
             "type": "array",
             "items": {
               "required": [
                 "id",
                 "title",
-                "start_date"
+                "startDate"
               ],
               "properties": {
                 "id": {
@@ -1266,17 +1266,68 @@
                 "title": {
                   "type": "string"
                 },
+                "startDate": {
+                  "type": "string"
+                },
+                "endDate": {
+                  "type": "string"
+                },
                 "members": {
                   "type": "array",
                   "items": {
                     "type": "string"
                   }
                 },
-                "start_date": {
+                "managers": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "published_at": {
                   "type": "string"
                 },
-                "end_date": {
+                "created_by": {
                   "type": "string"
+                },
+                "updated_by": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "managing": {
+            "type": "array",
+            "items": {
+              "required": [
+                "id",
+                "title",
+                "startDate"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "startDate": {
+                  "type": "string"
+                },
+                "endDate": {
+                  "type": "string"
+                },
+                "members": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "managers": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
                 },
                 "published_at": {
                   "type": "string"
@@ -1331,7 +1382,13 @@
           "role": {
             "type": "string"
           },
-          "study_groups": {
+          "belongsTo": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "managing": {
             "type": "array",
             "items": {
               "type": "string"

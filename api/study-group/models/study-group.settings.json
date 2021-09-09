@@ -17,18 +17,24 @@
       "required": true,
       "minLength": 2
     },
-    "members": {
-      "plugin": "users-permissions",
-      "collection": "user",
-      "via": "study_groups",
-      "dominant": true
-    },
-    "start_date": {
+    "startDate": {
       "type": "date",
       "required": true
     },
-    "end_date": {
+    "endDate": {
       "type": "date"
+    },
+    "members": {
+      "via": "belongsTo",
+      "plugin": "users-permissions",
+      "collection": "user",
+      "dominant": true
+    },
+    "managers": {
+      "via": "managing",
+      "plugin": "users-permissions",
+      "collection": "user",
+      "dominant": true
     }
   }
 }

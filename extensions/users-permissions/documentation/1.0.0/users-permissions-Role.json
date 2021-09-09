@@ -561,7 +561,13 @@
                 "role": {
                   "type": "string"
                 },
-                "study_groups": {
+                "belongsTo": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "managing": {
                   "type": "array",
                   "items": {
                     "type": "string"
