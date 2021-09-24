@@ -9,7 +9,10 @@
     "dev": "nodemon --exec ts-node src/index.ts"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mysql2": "^2.3.0",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.37"
   },
   "devDependencies": {
     "@tsconfig/node14": "^1.0.1",
