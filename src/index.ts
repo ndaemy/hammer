@@ -1,8 +1,8 @@
 import express from "express";
 import "reflect-metadata";
-import { createConnection, getManager } from "typeorm";
+import { createConnection } from "typeorm";
+import api from "./api";
 import entities from "./entity";
-import User from "./entity/User";
 
 (async () => {
   await createConnection({
@@ -20,16 +20,8 @@ import User from "./entity/User";
 
 const app = express();
 
-app.get("/", async (req, res) => {
-  const userRepository = getManager().getRepository(User);
-  const user = new User();
-  user.name = "ndaemy";
-  user.email = "yuyaebean@gmail.com";
-  user.password = "1234";
-  user.isEmailConfirmed = false;
-  await userRepository.save(user);
-  res.send("Hello, Express");
-});
+app.use(express.json()); // to parse application/json
+app.use("/api", api); // connect api routes
 
 app.listen(3000, () => {
   // eslint-disable-next-line no-console

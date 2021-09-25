@@ -6,7 +6,7 @@
 
 ### User
 
-- [ ] Create account
+- [x] Create account
 - [ ] Email confirmation
 - [ ] Reset password
 
