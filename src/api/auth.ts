@@ -13,42 +13,39 @@ interface SignUpBody {
 router.post(
   "/sign-up",
   async (req: Request<never, never, SignUpBody>, res: Response) => {
-    try {
-      const { name, email, password } = req.body;
-      const user = new User({ name, email, password });
-      await user.save();
-      res.send({
-        data: omit(user, password),
-      });
-    } catch (e: any) {
-      if (Array.isArray(e)) {
-        res.status(400);
-        res.send({
-          errors: {
-            title: "Incorrect form",
-            detail: e[0].constraints,
-          },
-        });
-        return;
-      }
-      if (e?.code === "ER_DUP_ENTRY") {
-        res.status(409);
-        res.send({
-          errors: {
-            title: "User duplication",
-            detail: e,
-          },
-        });
-        return;
-      }
-      res.status(500);
+    const { name, email, password } = req.body;
+    const user = new User({ name, email, password });
+
+    // validate form
+    const errors = await user.validate();
+    if (errors.length > 0) {
+      res.status(400);
       res.send({
         errors: {
-          title: "Unknown error",
-          detail: e,
+          title: "Incorrect form",
+          detail: errors[0].constraints,
         },
       });
+      return;
     }
+
+    // check duplication
+    const exist = await User.findOne({ email });
+    if (exist) {
+      res.status(409);
+      res.send({
+        errors: {
+          title: "User duplication",
+          detail: "User with given email already exist",
+        },
+      });
+      return;
+    }
+
+    await user.save();
+    res.send({
+      data: omit(user, password),
+    });
   },
 );
 

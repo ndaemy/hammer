@@ -1,11 +1,9 @@
-import { validateOrReject } from "class-validator";
-import { BaseEntity, BeforeInsert, BeforeUpdate } from "typeorm";
+import { validate } from "class-validator";
+import { BaseEntity } from "typeorm";
 
 abstract class ValidationEntity extends BaseEntity {
-  @BeforeInsert()
-  @BeforeUpdate()
-  async validate(): Promise<void> {
-    await validateOrReject(this);
+  async validate() {
+    return await validate(this);
   }
 }
 
