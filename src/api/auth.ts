@@ -44,7 +44,7 @@ router.post(
 
     await user.save();
     res.send({
-      data: omit(user, password),
+      data: omit(user, "password"),
     });
   },
 );
