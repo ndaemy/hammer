@@ -9,7 +9,10 @@
     "dev": "nodemon --exec ts-node src/index.ts"
   },
   "dependencies": {
+    "@sendgrid/mail": "^7.4.7",
     "class-validator": "^0.13.1",
+    "date-fns": "^2.25.0",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "lodash": "^4.17.21",
     "mysql2": "^2.3.0",

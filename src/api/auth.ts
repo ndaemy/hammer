@@ -1,6 +1,17 @@
+import sgMail from "@sendgrid/mail";
+import dotenv from "dotenv";
 import { Request, Response, Router } from "express";
 import { omit } from "lodash";
 import User from "../entity/User";
+import * as crypto from "crypto";
+import EmailVerifyToken from "../entity/EmailVerifyToken";
+
+dotenv.config();
+
+if (!process.env.SENDGRID_API_KEY) {
+  throw Error("SENDGRID API KEY not defined");
+}
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const router = Router();
 
@@ -43,6 +54,33 @@ router.post(
     }
 
     await user.save();
+
+    // create emailVerifyToken and send email
+    const token = crypto.randomBytes(20).toString("hex");
+    const emailVerifyToken = new EmailVerifyToken({
+      token,
+      user,
+    });
+    // TODO: Email 내용은 추후 수정되어야 함
+    const msg = {
+      to: email,
+      from: "test@sakura-hammer.com",
+      subject: "Email Verification",
+      html: `Your token is ${token}`,
+    };
+    try {
+      await sgMail.send(msg);
+    } catch (e) {
+      res.status(500);
+      res.send({
+        errors: {
+          title: "Cannot send mail",
+          detail: e?.response,
+        },
+      });
+    }
+    await emailVerifyToken.save();
+
     res.send({
       data: omit(user, "password"),
     });

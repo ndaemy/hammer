@@ -16,6 +16,15 @@ interface InputData {
 
 @Entity()
 class User extends ValidationEntity {
+  public constructor(data?: InputData) {
+    super();
+    if (data) {
+      this.name = data.name;
+      this.email = data.email;
+      this.password = data.password;
+    }
+  }
+
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -39,15 +48,6 @@ class User extends ValidationEntity {
 
   @UpdateDateColumn()
   updatedAt: Date;
-
-  public constructor(data?: InputData) {
-    super();
-    if (data) {
-      this.name = data.name;
-      this.email = data.email;
-      this.password = data.password;
-    }
-  }
 }
 
 export default User;

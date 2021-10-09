@@ -12,6 +12,7 @@
     "experimentalDecorators": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
+    "useUnknownInCatchVariables": false
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
