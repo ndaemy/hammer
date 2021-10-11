@@ -1,7 +1,7 @@
 import sgMail from "@sendgrid/mail";
 import dotenv from "dotenv";
 import { Request, Response, Router } from "express";
-import { omit } from "lodash";
+import { omit, pick } from "lodash";
 import User from "../entity/User";
 import * as crypto from "crypto";
 import EmailVerifyToken from "../entity/EmailVerifyToken";
@@ -83,6 +83,44 @@ router.post(
 
     res.send({
       data: omit(user, "password"),
+    });
+  },
+);
+
+interface EmailVerifyParams {
+  token: string;
+}
+
+router.post(
+  "/email-verify/:token",
+  async (req: Request<EmailVerifyParams>, res: Response) => {
+    const token = await EmailVerifyToken.findOne({
+      where: {
+        token: req.params.token,
+      },
+      relations: ["user"],
+    });
+
+    if (!token || token.expiredAt < new Date()) {
+      if (token) {
+        await token.remove();
+      }
+      res.status(410).json({
+        errors: {
+          title: "Token not valid",
+          detail:
+            "Token is not exist or has been expired. Please regenerate token and verify again.",
+        },
+      });
+      return;
+    }
+
+    token.user.isEmailConfirmed = true;
+    await token.user.save();
+    await token.remove();
+
+    res.json({
+      data: pick(token.user, ["id", "isEmailConfirmed"]),
     });
   },
 );

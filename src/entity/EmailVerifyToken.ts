@@ -3,7 +3,6 @@ import {
   BaseEntity,
   Column,
   CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   JoinColumn,
   OneToOne,
@@ -42,7 +41,7 @@ class EmailVerifyToken extends BaseEntity {
   @JoinColumn()
   user: User;
 
-  @DeleteDateColumn()
+  @Column()
   expiredAt: Date;
 
   @CreateDateColumn()

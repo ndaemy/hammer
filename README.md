@@ -7,7 +7,8 @@
 ### User
 
 - [x] Create account
-- [ ] Email confirmation
+- [x] Email confirmation
+- [ ] Resend the verification email
 - [ ] Reset password
 
 ### Study
