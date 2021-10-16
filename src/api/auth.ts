@@ -87,13 +87,74 @@ router.post(
   },
 );
 
-interface EmailVerifyParams {
+interface EmailVerifyBody {
+  email: string;
+}
+
+router.post(
+  "/email-verify",
+  async (req: Request<never, never, EmailVerifyBody>, res: Response) => {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({
+        errors: {
+          title: "User not exist",
+          detail: "User is not registered. Please sign up first.",
+        },
+      });
+    }
+
+    const oldEmailVerifyToken = await EmailVerifyToken.findOne({
+      where: {
+        user,
+      },
+    });
+    if (oldEmailVerifyToken) {
+      await oldEmailVerifyToken.remove();
+    }
+
+    // create emailVerifyToken and send email
+    const token = crypto.randomBytes(20).toString("hex");
+    const emailVerifyToken = new EmailVerifyToken({
+      token,
+      user,
+    });
+    // TODO: Email 내용은 추후 수정되어야 함
+    const msg = {
+      to: email,
+      from: "test@sakura-hammer.com",
+      subject: "Email Verification",
+      html: `Your token is ${token}`,
+    };
+    try {
+      await sgMail.send(msg);
+    } catch (e) {
+      res.status(500);
+      res.send({
+        errors: {
+          title: "Cannot send mail",
+          detail: e?.response,
+        },
+      });
+    }
+    await emailVerifyToken.save();
+
+    res.json({
+      data: {
+        email: user.email,
+      },
+    });
+  },
+);
+
+interface EmailVerifyTokenParams {
   token: string;
 }
 
 router.post(
   "/email-verify/:token",
-  async (req: Request<EmailVerifyParams>, res: Response) => {
+  async (req: Request<EmailVerifyTokenParams>, res: Response) => {
     const token = await EmailVerifyToken.findOne({
       where: {
         token: req.params.token,
