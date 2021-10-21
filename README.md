@@ -8,7 +8,7 @@
 
 - [x] Create account
 - [x] Email confirmation
-- [ ] Resend the verification email
+- [x] Resend the verification email
 - [ ] Reset password
 
 ### Study
